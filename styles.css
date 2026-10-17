@@ -99,7 +99,7 @@ figure { margin: 0; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand-mark { width: 40px; height: 40px; object-fit: contain; }
 .brand-name {
-  font: 700 1.05rem/1 var(--f-display); letter-spacing: .06em;
+  font: 700 1.05rem/1 var(--f-display); letter-spacing: .06em; white-space: nowrap;
   background: var(--oro-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
