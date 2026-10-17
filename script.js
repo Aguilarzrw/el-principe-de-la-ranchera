@@ -91,22 +91,62 @@
     [hero, reserva, footer].forEach(function (el) { if (el) stickyObs.observe(el); });
   }
 
-  // ---------- Luz del hero que sigue al cursor ----------
-  var spot = document.querySelector(".spot");
-  if (spot && window.matchMedia("(pointer: fine)").matches && !reduceMotion.matches) {
-    var raf = 0;
-    hero.addEventListener("pointermove", function (e) {
-      if (raf) return;
-      raf = requestAnimationFrame(function () {
-        var rect = hero.getBoundingClientRect();
-        var offset = ((e.clientX - rect.left) / rect.width - 0.5) * 160;
-        spot.style.setProperty("--spot-x", offset.toFixed(1) + "px");
-        raf = 0;
+  // ---------- Reflectores de tarima ----------
+  // Apunta cada haz desde su esquina hasta el centro de "Príncipe".
+  var lights = document.querySelector(".stage-lights");
+  var target = document.querySelector(".t-principe");
+  var beamL = document.querySelector(".beam-l");
+  var beamR = document.querySelector(".beam-r");
+
+  function aimLights() {
+    var h = hero.getBoundingClientRect();
+    var t = target.getBoundingClientRect();
+    var tx = t.left + t.width / 2 - h.left;
+    var ty = t.top + t.height * 0.55 - h.top;
+    [[beamL, "--a-l", -1], [beamR, "--a-r", 1]].forEach(function (b) {
+      var ox = b[0].offsetLeft + b[0].offsetWidth / 2;   // foco del haz (centro superior)
+      var oy = b[0].offsetTop;
+      var dx = tx - ox, dy = ty - oy;
+      var angle = Math.atan2(Math.abs(dx), dy) * 180 / Math.PI;
+      lights.style.setProperty(b[1], (b[2] * angle).toFixed(2) + "deg");
+      lights.style.setProperty("--len", Math.round(Math.hypot(dx, dy) * 1.35) + "px");
+    });
+    lights.style.setProperty("--tx", Math.round(tx) + "px");
+    lights.style.setProperty("--ty", Math.round(ty) + "px");
+  }
+
+  if (lights && target) {
+    var fontsReady = document.fonts && document.fonts.ready
+      ? Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 1200); })])
+      : Promise.resolve();
+    fontsReady.then(function () {
+      aimLights();
+      requestAnimationFrame(function () { hero.classList.add("lights-on"); });
+    });
+    beamR.addEventListener("animationend", function () { hero.classList.add("lights-done"); });
+    if (reduceMotion.matches) hero.classList.add("lights-done");
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(aimLights, 120);
+    });
+
+    // En escritorio, los reflectores siguen apenas al cursor
+    if (window.matchMedia("(pointer: fine)").matches && !reduceMotion.matches) {
+      var raf = 0;
+      hero.addEventListener("pointermove", function (e) {
+        if (raf || !hero.classList.contains("lights-done")) return;
+        raf = requestAnimationFrame(function () {
+          var rect = hero.getBoundingClientRect();
+          var aim = -((e.clientX - rect.left) / rect.width - 0.5) * 7;
+          lights.style.setProperty("--aim", aim.toFixed(2) + "deg");
+          raf = 0;
+        });
       });
-    });
-    hero.addEventListener("pointerleave", function () {
-      spot.style.setProperty("--spot-x", "0px");
-    });
+      hero.addEventListener("pointerleave", function () {
+        lights.style.setProperty("--aim", "0deg");
+      });
+    }
   }
 
   // ---------- Cartel de escenarios que se enciende ----------

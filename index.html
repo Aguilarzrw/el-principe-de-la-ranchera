@@ -24,6 +24,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    // Marca que hay JS antes de pintar, para que la tarima arranque a oscuras.
+    // Si script.js no carga, se encienden las luces a los 3 s igual.
+    document.documentElement.classList.add("js");
+    setTimeout(function () { var h = document.querySelector(".hero"); if (h) h.classList.add("lights-on"); }, 3000);
+  </script>
 </head>
 <body>
   <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -51,7 +57,12 @@
   <main id="contenido">
     <!-- HERO -->
     <section class="hero" aria-labelledby="hero-title">
-      <div class="spot" aria-hidden="true"></div>
+      <div class="stage-lights" aria-hidden="true">
+        <span class="haze"></span>
+        <span class="light-pool"></span>
+        <span class="beam beam-l"></span>
+        <span class="beam beam-r"></span>
+      </div>
       <div class="wrap hero-inner">
         <!-- Botonadura de charro: se enciende al cargar -->
         <ol class="botonadura" aria-hidden="true">
