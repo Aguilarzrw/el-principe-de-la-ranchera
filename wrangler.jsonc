@@ -1,0 +1,11 @@
+{
+  // Sitio estático de El Príncipe De La Ranchera, servido por Cloudflare Workers (plan gratis).
+  // Publicar: bash publicar.sh  (copia el sitio a dist/ y lo sube)
+  "$schema": "https://unpkg.com/wrangler@4.151.1/config-schema.json",
+  "name": "el-principe-de-la-ranchera",
+  "compatibility_date": "2026-10-17",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash"
+  }
+}
