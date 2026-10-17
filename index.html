@@ -85,18 +85,22 @@
           <li class="formato">
             <h3>Serenatas</h3>
             <p>Para el cumpleaños, el Día de las Madres o esa fecha que merece una canción en la puerta de la casa. Llega el charro, se brinda y se canta con el corazón.</p>
+            <a class="formato-link" href="#reserva" data-tipo="Serenata">Reservar una serenata</a>
           </li>
           <li class="formato">
             <h3>Mariachi Show</h3>
             <p>El espectáculo completo junto a su Mariachi 507: trompetas, violines y las rancheras de siempre para una noche que nadie olvida.</p>
+            <a class="formato-link" href="#reserva" data-tipo="Mariachi Show">Reservar el Mariachi Show</a>
           </li>
           <li class="formato formato-new">
             <h3>Banda Show <span class="badge">Recién estrenado</span></h3>
             <p>Su formato más nuevo, con banda en tarima. Otro sonido, la misma entrega, para fiestas que piden bailar.</p>
+            <a class="formato-link" href="#reserva" data-tipo="Banda Show">Reservar la Banda Show</a>
           </li>
           <li class="formato">
             <h3>Eventos y tarimas</h3>
             <p>Restaurantes, bares, teatros, eventos comunitarios y de labor social. Donde haya un escenario y gente con ganas de cantar.</p>
+            <a class="formato-link" href="#reserva" data-tipo="Evento o tarima">Reservar para tu evento</a>
           </li>
         </ul>
       </div>
@@ -126,8 +130,13 @@
         <div class="section-head">
           <h2 id="envivo-title" class="section-title">En vivo</h2>
           <p class="section-sub">Momentos de tarima y serenata en su Instagram. Toca uno para verlo.</p>
+          <div class="reels-nav">
+            <button class="reels-btn" type="button" data-dir="-1" aria-label="Reel anterior" aria-controls="reels"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <p class="reels-count" aria-live="polite"><span id="reel-now">1</span> de <span id="reel-total">8</span></p>
+            <button class="reels-btn" type="button" data-dir="1" aria-label="Reel siguiente" aria-controls="reels"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          </div>
         </div>
-        <ul class="reels">
+        <ul class="reels" id="reels">
           <!-- FOTO (cada reel): miniatura vertical 9:16 tomada del propio video (exportada por el cliente, no del CDN de Instagram). Añadir dentro de .reel-art: <img src="img/reel-XX.jpg" alt="" loading="lazy" width="540" height="960"> -->
           <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DeSty9dR6is/" target="_blank" rel="noopener"><span class="reel-art tone-vino" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">Su familia canta con él</span></a></li>
           <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DeN7bMXRLkm/" target="_blank" rel="noopener"><span class="reel-art tone-azul" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">Con su Mariachi 507</span></a></li>
@@ -209,6 +218,10 @@
             <textarea id="f-mensaje" name="mensaje" rows="4" placeholder="Para quién es, a qué hora, alguna canción especial…"></textarea>
           </div>
           <button class="btn btn-gold btn-block" type="submit">Enviar por WhatsApp</button>
+          <div class="form-status" id="form-status" role="status" hidden>
+            <p class="form-status-title">Tu mensaje está listo en WhatsApp.</p>
+            <p>Si no se abrió, <a id="wa-fallback" href="https://wa.me/584243165711" target="_blank" rel="noopener">ábrelo desde aquí</a>.</p>
+          </div>
         </form>
       </div>
     </section>
@@ -234,6 +247,8 @@
       <p class="copy">© <span id="year">2026</span> Ricardo Velasco</p>
     </div>
   </footer>
+
+  <a class="sticky-cta btn btn-gold" id="sticky-cta" href="#reserva" aria-hidden="true" tabindex="-1">Reservar tu fecha</a>
 
   <script src="script.js" defer></script>
 </body>

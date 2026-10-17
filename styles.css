@@ -406,3 +406,98 @@ input:focus, select:focus, textarea:focus { border-color: var(--oro-claro); back
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
 }
+
+/* =========================================================
+   Mejoras de experiencia: encabezado, navegación activa,
+   reservas por formato, carrusel, cartel encendido, envío.
+   ========================================================= */
+
+/* Encabezado: transparente sobre el hero, sólido al bajar */
+.site-header { transition: background-color .3s var(--ease), border-color .3s var(--ease); }
+.site-header:not(.is-scrolled) { background: rgba(22,14,13,.35); border-bottom-color: transparent; }
+.site-header.is-scrolled { background: rgba(22,14,13,.9); }
+
+/* Sección activa en el menú */
+.nav a[aria-current="true"]:not(.btn) { color: var(--oro-claro); }
+@media (min-width: 860px) {
+  .nav a:not(.btn) { position: relative; }
+  .nav a:not(.btn)::after {
+    content: ""; position: absolute; left: 50%; bottom: 6px; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--oro); transform: translateX(-50%) scale(0); transition: transform .25s var(--ease);
+  }
+  .nav a[aria-current="true"]:not(.btn)::after { transform: translateX(-50%) scale(1); }
+}
+body.menu-open { overflow: hidden; }
+
+/* Hero: la luz sigue al cursor (solo con puntero fino) */
+.spot { transition: transform .6s var(--ease); transform: translateX(var(--spot-x, 0px)); }
+
+/* Reservar por formato */
+.formato-link {
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px;
+  font-weight: 600; color: var(--oro-claro); text-decoration: underline;
+  text-decoration-thickness: 1px; text-underline-offset: 6px; text-decoration-color: rgba(230,203,134,.45);
+  transition: text-decoration-color .2s var(--ease), color .2s var(--ease);
+}
+.formato-link:hover { color: #FFF1C9; text-decoration-color: currentColor; }
+@media (min-width: 860px) { .formato-link { grid-column: 2; margin-top: -6px; } }
+
+/* Campo resaltado al llegar desde un formato */
+@keyframes resaltar { 0% { box-shadow: 0 0 0 0 rgba(230,203,134,.55); } 100% { box-shadow: 0 0 0 10px rgba(230,203,134,0); } }
+.is-prefilled { border-color: var(--oro-claro); animation: resaltar .9s var(--ease) 2; }
+
+/* Carrusel de reels: controles en móvil */
+.reels { overscroll-behavior-x: contain; }
+.reels-nav { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+.reels-btn {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  background: transparent; color: var(--oro-claro); border: 1px solid rgba(230,203,134,.45);
+  cursor: pointer; transition: border-color .2s, background-color .2s, opacity .2s, transform .15s var(--ease);
+}
+.reels-btn:hover { border-color: var(--oro-claro); background: rgba(230,203,134,.08); }
+.reels-btn:active { transform: scale(.94); }
+.reels-btn:disabled { opacity: .35; cursor: default; }
+.reels-btn svg { width: 20px; height: 20px; }
+.reels-count { min-width: 4.5em; text-align: center; color: var(--marfil-suave); font-variant-numeric: tabular-nums; }
+@media (min-width: 960px) { .reels-nav { display: none; } }
+
+/* Cartel de escenarios: se enciende al entrar en pantalla */
+.cartel li { position: relative; padding-left: 22px; }
+.cartel li::before {
+  content: ""; position: absolute; left: 0; top: 30px; width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFF4CF 0 18%, var(--oro-claro) 30%, var(--oro) 60%, #7A5A1C 100%);
+  box-shadow: 0 0 10px rgba(230,203,134,.5);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .cartel li::before { opacity: .15; box-shadow: none; transition: opacity .5s var(--ease), box-shadow .5s var(--ease); }
+  .js .cartel li .venue { opacity: .45; transition: opacity .6s var(--ease); }
+  .js .cartel.is-lit li::before { opacity: 1; box-shadow: 0 0 10px rgba(230,203,134,.5); }
+  .js .cartel.is-lit li .venue { opacity: 1; }
+  .js .cartel.is-lit li:nth-child(2)::before, .js .cartel.is-lit li:nth-child(2) .venue { transition-delay: .15s; }
+  .js .cartel.is-lit li:nth-child(3)::before, .js .cartel.is-lit li:nth-child(3) .venue { transition-delay: .3s; }
+  .js .cartel.is-lit li:nth-child(4)::before, .js .cartel.is-lit li:nth-child(4) .venue { transition-delay: .45s; }
+  .js .cartel.is-lit li:nth-child(5)::before, .js .cartel.is-lit li:nth-child(5) .venue { transition-delay: .6s; }
+  .js .cartel.is-lit li:nth-child(6)::before, .js .cartel.is-lit li:nth-child(6) .venue { transition-delay: .75s; }
+}
+
+/* Confirmación del formulario */
+.form-status {
+  padding: 16px 18px; border-radius: 12px;
+  background: rgba(230,203,134,.1); border: 1px solid rgba(230,203,134,.45);
+}
+.form-status-title { font-weight: 600; color: var(--oro-claro); margin-bottom: 4px; }
+.form-status a { color: var(--oro-claro); font-weight: 600; text-underline-offset: 4px; }
+@media (prefers-reduced-motion: no-preference) {
+  .form-status:not([hidden]) { animation: aparecer .4s var(--ease) both; }
+}
+
+/* Botón fijo de reserva en móvil */
+.sticky-cta {
+  position: fixed; left: var(--gutter); right: var(--gutter); z-index: 40;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  box-shadow: 0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.35);
+  transform: translateY(140%); opacity: 0;
+  transition: transform .3s var(--ease), opacity .2s var(--ease);
+}
+.sticky-cta.is-visible { transform: none; opacity: 1; }
+@media (min-width: 860px) { .sticky-cta { display: none; } }
