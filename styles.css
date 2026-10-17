@@ -166,8 +166,8 @@ p { margin: 0; }
   transform: translateX(-50%); border-radius: 50%;
   background: radial-gradient(circle, rgba(255,246,222,.9), rgba(230,203,134,.25) 40%, transparent 70%);
 }
-.beam-l { left: -2%;  transform: rotate(calc(var(--a-l, -32deg) + var(--sweep-l, 0deg) + var(--aim, 0deg))); }
-.beam-r { left: 102%; transform: rotate(calc(var(--a-r, 32deg) + var(--sweep-r, 0deg) + var(--aim, 0deg))); }
+.beam-l { left: -2%;  transform: rotate(calc(var(--a-l, -32deg) + var(--aim, 0deg))); }
+.beam-r { left: 102%; transform: rotate(calc(var(--a-r, 32deg) + var(--aim, 0deg))); }
 .hero.lights-done .beam { transition: transform .8s var(--ease); }
 
 .light-pool { /* el charco de luz donde se cruzan */
@@ -253,15 +253,6 @@ p { margin: 0; }
   .js .hero-lead, .js .hero-ctas { opacity: 0; transform: translateY(10px); }
   .js .hero.lights-on .hero-lead { animation: aparecer .8s var(--ease) 1.8s forwards; }
   .js .hero.lights-on .hero-ctas { animation: aparecer .8s var(--ease) 1.95s forwards; }
-}
-/* Versión con Motion (index-motion.html): motion-lights.js anima los haces,
-   la botonadura y el texto con resortes, así que se apagan estas keyframes. */
-@media (prefers-reduced-motion: no-preference) {
-  [data-anim="motion"] .hero.lights-on .beam,
-  [data-anim="motion"] .hero.lights-on .botonadura li,
-  [data-anim="motion"] .hero.lights-on .hero-lead,
-  [data-anim="motion"] .hero.lights-on .hero-ctas { animation: none !important; }
-  [data-anim="motion"] .hero.lights-done .beam { transition: none; }
 }
 @keyframes barrer-l {
   0%   { opacity: 0; transform: rotate(calc(var(--a-l, -32deg) + 40deg)); }

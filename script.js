@@ -121,12 +121,8 @@
       : Promise.resolve();
     fontsReady.then(function () {
       aimLights();
-      requestAnimationFrame(function () {
-        hero.classList.add("lights-on");
-        hero.dispatchEvent(new CustomEvent("lights:on"));
-      });
+      requestAnimationFrame(function () { hero.classList.add("lights-on"); });
     });
-    var motionDriven = root.getAttribute("data-anim") === "motion";
     beamR.addEventListener("animationend", function () { hero.classList.add("lights-done"); });
     if (reduceMotion.matches) hero.classList.add("lights-done");
     var resizeTimer;
@@ -136,8 +132,7 @@
     });
 
     // En escritorio, los reflectores siguen apenas al cursor
-    // (En la versión con Motion, esto lo hace motion-lights.js con un resorte.)
-    if (!motionDriven && window.matchMedia("(pointer: fine)").matches && !reduceMotion.matches) {
+    if (window.matchMedia("(pointer: fine)").matches && !reduceMotion.matches) {
       var raf = 0;
       hero.addEventListener("pointermove", function (e) {
         if (raf || !hero.classList.contains("lights-done")) return;
