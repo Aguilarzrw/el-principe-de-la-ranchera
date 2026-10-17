@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aguilarzrw.github.io/el-principe-de-la-ranchera/sitemap.xml
