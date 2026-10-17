@@ -685,6 +685,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .footer-inner { flex-direction: row; align-items: center; justify-content: space-between; }
 }
 
+/* Enlaces legales y aviso de consentimiento */
+.legal-links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.legal-links a {
+  display: inline-flex; align-items: center; min-height: 44px; font-size: .88rem;
+  color: var(--marfil-suave); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(203,195,182,.35);
+}
+.legal-links a:hover, .legal-links a[aria-current="page"] { color: var(--oro-claro); }
+.consent { font-size: .82rem; line-height: 1.5; color: var(--marfil-suave); }
+.consent a { color: var(--oro-claro); text-underline-offset: 3px; }
+
+/* Páginas legales */
+.legal { max-width: 760px; padding-top: 104px; padding-bottom: 72px; }
+.legal-page .site-header .btn { min-height: 40px; }
+.legal-back a { display: inline-flex; min-height: 44px; align-items: center; color: var(--oro-claro); font-weight: 600; font-size: .92rem; }
+.legal h1 { margin-top: 8px; max-width: none; }
+.legal-lead { margin-top: 12px; font-size: 1.08rem; color: var(--marfil); }
+.legal-date { margin-top: 8px; font-size: .85rem; color: var(--marfil-suave); }
+.legal-body { margin-top: 32px; padding-top: 8px; border-top: 1px solid var(--linea); }
+.legal-body h2 { margin: 32px 0 10px; font-size: clamp(1.15rem, 4.4vw, 1.4rem); color: var(--oro-claro); }
+.legal-body p, .legal-body li { color: var(--marfil-suave); max-width: 68ch; }
+.legal-body p + p { margin-top: 12px; }
+.legal-body ul, .legal-body ol { display: grid; gap: 6px; margin: 12px 0; padding-left: 22px; }
+.legal-body ul { list-style: disc; }
+.legal-body ol { list-style: decimal; }
+.legal-body li::marker { color: var(--oro); }
+.legal-body strong { color: var(--marfil); }
+.legal-body a { color: var(--oro-claro); text-underline-offset: 3px; }
+
 /* Botón fijo de reserva en móvil */
 .sticky-cta {
   position: fixed; left: var(--gutter); right: var(--gutter); z-index: 40;
