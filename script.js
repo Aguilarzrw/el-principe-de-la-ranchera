@@ -253,78 +253,167 @@
     updateCount();
   }
 
-  // ---------- Formulario de reserva → WhatsApp ----------
+  // ---------- Reserva por pasos → WhatsApp ----------
   var form = document.getElementById("reserva-form");
+  var steps = form.querySelectorAll(".step");
+  var dots = form.querySelectorAll(".step-dot");
+  var stepStatus = document.getElementById("step-status");
+  var motivoBox = document.getElementById("motivo");
+  var preview = document.getElementById("wa-preview");
+  var prettyDate = document.getElementById("fecha-texto");
   var status = document.getElementById("form-status");
   var fallback = document.getElementById("wa-fallback");
-  var fecha = form.elements.fecha;
-  var today = new Date();
-  today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
-  fecha.min = today.toISOString().slice(0, 10);
+  var STEP_NAMES = ["Servicio", "Fecha y lugar", "Tus datos"];
+  var current = 1;
 
-  // Reservar desde un formato: elige el tipo y lleva al formulario
-  document.querySelectorAll(".formato-link").forEach(function (link) {
-    link.addEventListener("click", function () {
-      var tipo = form.elements.tipo;
-      tipo.value = link.getAttribute("data-tipo");
-      showError(tipo, "");
-      tipo.classList.remove("is-prefilled");
-      void tipo.offsetWidth;
-      tipo.classList.add("is-prefilled");
-      setTimeout(function () {
-        form.elements.nombre.focus({ preventScroll: true });
-      }, reduceMotion.matches ? 0 : 500);
+  function localISO(d) {
+    var z = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+    return z.toISOString().slice(0, 10);
+  }
+  form.elements.fecha.min = localISO(new Date());
+
+  function radioValue(name) {
+    var el = form.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : "";
+  }
+
+  function dateWords(value) {
+    if (!value) return "";
+    var p = value.split("-");
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    var text = new Intl.DateTimeFormat("es-VE", { weekday: "long", day: "numeric", month: "long" }).format(d);
+    var diff = Math.round((d - new Date(new Date().setHours(0, 0, 0, 0))) / 86400000);
+    if (diff === 0) return "Hoy, " + text;
+    if (diff === 1) return "Mañana, " + text;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  function buildMessage(forPreview) {
+    var f = form.elements;
+    var tipo = radioValue("tipo");
+    var motivo = tipo === "Serenata" ? radioValue("motivo") : "";
+    var nombre = f.nombre.value.trim();
+    var lines = ["Hola, Príncipe. Quiero reservar.", ""];
+    lines.push("Servicio: " + (tipo ? tipo + (motivo ? " (" + motivo + ")" : "") : "(por elegir)"));
+    if (f.fecha.value) lines.push("Fecha: " + dateWords(f.fecha.value).replace(/^(Hoy|Mañana), /, ""));
+    if (radioValue("hora")) lines.push("Hora: " + radioValue("hora"));
+    if (f.ciudad.value.trim()) lines.push("Ciudad: " + f.ciudad.value.trim());
+    lines.push("Nombre: " + (nombre || (forPreview ? "(tu nombre)" : "")));
+    if (f.mensaje.value.trim()) lines.push("", f.mensaje.value.trim());
+    return lines.join("\n");
+  }
+
+  function refresh() {
+    motivoBox.hidden = radioValue("tipo") !== "Serenata";
+    prettyDate.textContent = dateWords(form.elements.fecha.value);
+    preview.textContent = buildMessage(true);
+    var iso = form.elements.fecha.value;
+    form.querySelectorAll("[data-quick]").forEach(function (b) {
+      b.classList.toggle("is-on", b.getAttribute("data-iso") === iso);
     });
-  });
-  form.elements.tipo.addEventListener("animationend", function () {
-    this.classList.remove("is-prefilled");
-  });
+  }
 
-  function showError(field, msg) {
-    var err = document.getElementById("e-" + field.name);
-    field.setAttribute("aria-invalid", msg ? "true" : "false");
+  function setError(id, msg) {
+    var err = document.getElementById(id);
     if (err) err.textContent = msg;
   }
 
-  function formatDate(value) {
-    if (!value) return "";
-    var p = value.split("-");
-    return p[2] + "/" + p[1] + "/" + p[0];
+  function goTo(n, focus) {
+    current = n;
+    steps.forEach(function (s) { s.classList.toggle("is-active", Number(s.getAttribute("data-step")) === n); });
+    dots.forEach(function (d) {
+      var k = Number(d.getAttribute("data-step"));
+      d.classList.toggle("is-current", k === n);
+      d.classList.toggle("is-done", k < n);
+      if (k === n) d.setAttribute("aria-current", "step"); else d.removeAttribute("aria-current");
+    });
+    stepStatus.textContent = "Paso " + n + " de 3: " + STEP_NAMES[n - 1];
+    if (focus) {
+      var top = form.getBoundingClientRect().top;
+      if (top < 64 || top > window.innerHeight * 0.6) {
+        window.scrollTo({ top: window.scrollY + top - 80, behavior: reduceMotion.matches ? "auto" : "smooth" });
+      }
+      var title = steps[n - 1].querySelector(".step-title");
+      if (title) title.focus({ preventScroll: true });
+    }
   }
+
+  function validate(n) {
+    if (n === 1 && !radioValue("tipo")) {
+      setError("e-tipo", "Elige qué quieres celebrar para continuar.");
+      var first = form.querySelector('input[name="tipo"]');
+      if (first) first.focus();
+      return false;
+    }
+    if (n === 3 && !form.elements.nombre.value.trim()) {
+      setError("e-nombre", "Escribe tu nombre para que sepa quién lo contacta.");
+      form.elements.nombre.setAttribute("aria-invalid", "true");
+      form.elements.nombre.focus();
+      return false;
+    }
+    return true;
+  }
+
+  form.addEventListener("click", function (e) {
+    if (e.target.closest("[data-next]") && validate(current)) goTo(current + 1, true);
+    if (e.target.closest("[data-back]")) goTo(current - 1, true);
+    var quick = e.target.closest("[data-quick]");
+    if (quick) {
+      form.elements.fecha.value = quick.getAttribute("data-iso");
+      refresh();
+    }
+  });
+  // Fechas rápidas: Hoy, Mañana y el sábado que viene (si hoy es sábado, el siguiente)
+  form.querySelectorAll("[data-quick]").forEach(function (b) {
+    var d = new Date(), q = b.getAttribute("data-quick");
+    if (q === "sab") {
+      var add = (6 - d.getDay() + 7) % 7;
+      if (add === 0) { add = 7; b.textContent = "El próximo sábado"; }
+      d.setDate(d.getDate() + add);
+    } else {
+      d.setDate(d.getDate() + Number(q));
+    }
+    b.setAttribute("data-iso", localISO(d));
+  });
+
+  form.addEventListener("input", function (e) {
+    if (e.target.name === "tipo") setError("e-tipo", "");
+    if (e.target.name === "nombre" && e.target.value.trim()) {
+      setError("e-nombre", "");
+      e.target.setAttribute("aria-invalid", "false");
+    }
+    refresh();
+  });
+  form.addEventListener("change", refresh);
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    var f = form.elements;
-    var nombre = f.nombre.value.trim();
-    var tipo = f.tipo.value;
-    var firstInvalid = null;
-
-    showError(f.nombre, nombre ? "" : "Escribe tu nombre para que sepa quién lo contacta.");
-    showError(f.tipo, tipo ? "" : "Elige el tipo de evento.");
-    if (!nombre) firstInvalid = f.nombre;
-    else if (!tipo) firstInvalid = f.tipo;
-    if (firstInvalid) { firstInvalid.focus(); return; }
-
-    var lines = [
-      "Hola, Príncipe. Quiero reservar.",
-      "",
-      "Nombre: " + nombre,
-      "Tipo de evento: " + tipo
-    ];
-    if (f.fecha.value) lines.push("Fecha: " + formatDate(f.fecha.value));
-    if (f.ciudad.value.trim()) lines.push("Ciudad: " + f.ciudad.value.trim());
-    if (f.mensaje.value.trim()) lines.push("", f.mensaje.value.trim());
-
-    var url = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(lines.join("\n"));
+    // Enter en los pasos 1 y 2 avanza en lugar de enviar
+    if (current < 3) { if (validate(current)) goTo(current + 1, true); return; }
+    if (!validate(1)) { goTo(1, true); return; }
+    if (!validate(3)) return;
+    var url = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(buildMessage(false));
     fallback.href = url;
     status.hidden = false;
     window.open(url, "_blank", "noopener");
   });
 
-  ["nombre", "tipo"].forEach(function (name) {
-    var el = form.elements[name];
-    var clear = function () { if (el.value.trim()) showError(el, ""); };
-    el.addEventListener("input", clear);
-    el.addEventListener("change", clear);
+  // Elegir un servicio desde fuera del formulario (tarjetas de Formatos o enlace ?servicio=)
+  var SERVICIOS = { serenata: "Serenata", mariachi: "Mariachi Show", banda: "Banda Show", evento: "Evento o tarima" };
+  function pickService(value) {
+    var radio = form.querySelector('input[name="tipo"][value="' + value + '"]');
+    if (!radio) return;
+    radio.checked = true;
+    setError("e-tipo", "");
+    goTo(1, false);
+    refresh();
+  }
+  document.querySelectorAll(".formato-link").forEach(function (link) {
+    link.addEventListener("click", function () { pickService(link.getAttribute("data-tipo")); });
   });
+  var param = new URLSearchParams(location.search).get("servicio");
+  if (param && SERVICIOS[param.toLowerCase()]) pickService(SERVICIOS[param.toLowerCase()]);
+
+  goTo(1, false);
+  refresh();
 })();

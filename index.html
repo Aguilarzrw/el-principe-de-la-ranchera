@@ -235,54 +235,164 @@
       </div>
     </section>
 
-    <!-- RESERVA -->
+    <!-- RESERVA: flujo en 3 pasos que arma el mensaje y abre WhatsApp.
+         Enlaces directos para Instagram: #reserva, o ?servicio=serenata|mariachi|banda|evento#reserva -->
     <section class="reserva" id="reserva" aria-labelledby="reserva-title">
       <div class="wrap reserva-grid">
         <div class="reserva-intro">
           <h2 id="reserva-title" class="section-title">Reserva tu fecha</h2>
-          <p>Cuéntale qué estás celebrando y él te responde por WhatsApp. Al enviar se abre WhatsApp con tu mensaje listo.</p>
+          <p>Elige el servicio, cuéntale cuándo y dónde, y el mensaje llega listo a su WhatsApp. Él te responde personalmente.</p>
           <p class="phone">
-            <span>WhatsApp y reservas</span>
+            <span>¿Prefieres escribirle directo?</span>
             <a href="https://wa.me/584243165711" target="_blank" rel="noopener">0424-316 5711</a>
           </p>
         </div>
-        <form class="form" id="reserva-form" novalidate>
-          <div class="field">
-            <label for="f-nombre">Tu nombre</label>
-            <input id="f-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="e-nombre">
-            <p class="error" id="e-nombre" aria-live="polite"></p>
-          </div>
-          <div class="field">
-            <label for="f-tipo">Tipo de evento</label>
-            <select id="f-tipo" name="tipo" required aria-describedby="e-tipo">
-              <option value="">Elige una opción</option>
-              <option>Serenata</option>
-              <option>Mariachi Show</option>
-              <option>Banda Show</option>
-              <option>Evento o tarima</option>
-              <option>Otro</option>
-            </select>
+
+        <form class="booking" id="reserva-form" novalidate>
+          <ol class="steps" aria-label="Pasos de la reserva">
+            <li class="step-dot is-current" data-step="1"><span class="step-num">1</span><span class="step-name">Servicio</span></li>
+            <li class="step-dot" data-step="2"><span class="step-num">2</span><span class="step-name">Fecha y lugar</span></li>
+            <li class="step-dot" data-step="3"><span class="step-num">3</span><span class="step-name">Tus datos</span></li>
+          </ol>
+          <p class="sr-only" id="step-status" aria-live="polite">Paso 1 de 3: Servicio</p>
+
+          <!-- Paso 1: servicio -->
+          <fieldset class="step" data-step="1">
+            <legend class="step-title" tabindex="-1">¿Qué quieres celebrar?</legend>
+            <div class="service-grid">
+              <label class="service">
+                <input type="radio" name="tipo" value="Serenata">
+                <img src="assets/img/serenata-calida-600.webp" alt="" width="600" height="750" loading="lazy">
+                <span class="service-name">Serenata</span>
+                <span class="service-note">Cumpleaños, Día de las Madres, fechas especiales</span>
+              </label>
+              <label class="service">
+                <input type="radio" name="tipo" value="Mariachi Show">
+                <img src="assets/video/hero-mariachi-poster.webp" alt="" width="720" height="1280" loading="lazy">
+                <span class="service-name">Mariachi Show</span>
+                <span class="service-note">Con su Mariachi 507</span>
+              </label>
+              <label class="service">
+                <input type="radio" name="tipo" value="Banda Show">
+                <img src="assets/img/escenario-azul-600.webp" alt="" width="600" height="750" loading="lazy">
+                <span class="service-name">Banda Show</span>
+                <span class="service-note">Su formato nuevo, con banda</span>
+              </label>
+              <label class="service">
+                <input type="radio" name="tipo" value="Evento o tarima">
+                <img src="assets/img/evento-comunitario-600.webp" alt="" width="600" height="750" loading="lazy">
+                <span class="service-name">Eventos y tarimas</span>
+                <span class="service-note">Restaurantes, bares, teatros, eventos comunitarios</span>
+              </label>
+              <label class="service service-other">
+                <input type="radio" name="tipo" value="Otro">
+                <span class="service-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M9 18V6l11-2v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                </span>
+                <span class="service-name">Otra idea</span>
+                <span class="service-note">Cuéntale qué tienes en mente</span>
+              </label>
+            </div>
             <p class="error" id="e-tipo" aria-live="polite"></p>
-          </div>
-          <div class="field-row">
+
+            <div class="motivo" id="motivo" hidden>
+              <p class="mini-label" id="motivo-label">¿Cuál es el motivo?</p>
+              <div class="chips" role="radiogroup" aria-labelledby="motivo-label">
+                <label class="chip"><input type="radio" name="motivo" value="Cumpleaños"><span>Cumpleaños</span></label>
+                <label class="chip"><input type="radio" name="motivo" value="Día de las Madres"><span>Día de las Madres</span></label>
+                <label class="chip"><input type="radio" name="motivo" value="Aniversario"><span>Aniversario</span></label>
+                <label class="chip"><input type="radio" name="motivo" value="Otra fecha especial"><span>Otra fecha especial</span></label>
+              </div>
+            </div>
+
+            <div class="step-actions">
+              <button class="btn btn-gold" type="button" data-next>Continuar</button>
+            </div>
+          </fieldset>
+
+          <!-- Paso 2: fecha, hora y lugar -->
+          <fieldset class="step" data-step="2">
+            <legend class="step-title" tabindex="-1">¿Cuándo y dónde?</legend>
+
             <div class="field">
-              <label for="f-fecha">Fecha</label>
-              <input id="f-fecha" name="fecha" type="date">
+              <label class="mini-label" for="f-fecha">Fecha</label>
+              <div class="chips chips-quick" aria-label="Fechas rápidas">
+                <button class="chip-btn" type="button" data-quick="0">Hoy</button>
+                <button class="chip-btn" type="button" data-quick="1">Mañana</button>
+                <button class="chip-btn" type="button" data-quick="sab">Este sábado</button>
+              </div>
+              <div class="input-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                <input id="f-fecha" name="fecha" type="date" aria-describedby="fecha-texto">
+              </div>
+              <p class="date-pretty" id="fecha-texto" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <p class="mini-label" id="hora-label">Hora aproximada</p>
+              <div class="chips" role="radiogroup" aria-labelledby="hora-label">
+                <label class="chip"><input type="radio" name="hora" value="En la mañana"><span>Mañana</span></label>
+                <label class="chip"><input type="radio" name="hora" value="En la tarde"><span>Tarde</span></label>
+                <label class="chip"><input type="radio" name="hora" value="En la noche"><span>Noche</span></label>
+                <label class="chip"><input type="radio" name="hora" value="A medianoche"><span>A medianoche</span></label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="mini-label" for="f-ciudad">Ciudad</label>
+              <div class="input-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                <input id="f-ciudad" name="ciudad" type="text" autocomplete="address-level2" list="ciudades" placeholder="Ej.: Maracay">
+              </div>
+              <datalist id="ciudades">
+                <option value="Maracay"><option value="Turmero"><option value="Cagua"><option value="La Victoria">
+                <option value="Villa de Cura"><option value="Valencia"><option value="Caracas">
+              </datalist>
+            </div>
+
+            <div class="step-actions">
+              <button class="btn btn-ghost" type="button" data-back>Atrás</button>
+              <button class="btn btn-gold" type="button" data-next>Continuar</button>
+            </div>
+          </fieldset>
+
+          <!-- Paso 3: datos y vista previa -->
+          <fieldset class="step" data-step="3">
+            <legend class="step-title" tabindex="-1">Tus datos</legend>
+            <div class="field">
+              <label class="mini-label" for="f-nombre">Tu nombre</label>
+              <div class="input-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 20.5c1.2-3.8 4.1-5.7 7.5-5.7s6.3 1.9 7.5 5.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                <input id="f-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="e-nombre">
+              </div>
+              <p class="error" id="e-nombre" aria-live="polite"></p>
             </div>
             <div class="field">
-              <label for="f-ciudad">Ciudad</label>
-              <input id="f-ciudad" name="ciudad" type="text" autocomplete="address-level2">
+              <label class="mini-label" for="f-mensaje">Mensaje <span class="opt">(opcional)</span></label>
+              <textarea id="f-mensaje" name="mensaje" rows="3" placeholder="Para quién es, alguna canción especial, cuántas personas…"></textarea>
             </div>
-          </div>
-          <div class="field">
-            <label for="f-mensaje">Mensaje <span class="opt">(opcional)</span></label>
-            <textarea id="f-mensaje" name="mensaje" rows="4" placeholder="Para quién es, a qué hora, alguna canción especial…"></textarea>
-          </div>
-          <button class="btn btn-gold btn-block" type="submit">Enviar por WhatsApp</button>
-          <div class="form-status" id="form-status" role="status" hidden>
-            <p class="form-status-title">Tu mensaje está listo en WhatsApp.</p>
-            <p>Si no se abrió, <a id="wa-fallback" href="https://wa.me/584243165711" target="_blank" rel="noopener">ábrelo desde aquí</a>.</p>
-          </div>
+
+            <div class="preview" aria-label="Vista previa del mensaje">
+              <p class="preview-head">
+                <img src="assets/img/corona-96.png" alt="" width="28" height="28">
+                <span>Así le llegará tu mensaje</span>
+              </p>
+              <p class="bubble" id="wa-preview"></p>
+            </div>
+
+            <div class="step-actions">
+              <button class="btn btn-ghost" type="button" data-back>Atrás</button>
+              <button class="btn btn-gold btn-wa" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4A8 8 0 1 1 20 11.6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9.5c.3 2 2.4 4.3 5 5l1.2-1.3-1.8-1-.9.8c-.9-.4-1.7-1.2-2.1-2.1l.8-.9-1-1.8z" fill="currentColor"/></svg>
+                Enviar por WhatsApp
+              </button>
+            </div>
+
+            <div class="form-status" id="form-status" role="status" hidden>
+              <p class="form-status-title">¡Listo! Tu mensaje se abrió en WhatsApp.</p>
+              <p>Solo falta tocar enviar allá. Si no se abrió, <a id="wa-fallback" href="https://wa.me/584243165711" target="_blank" rel="noopener">ábrelo desde aquí</a>.</p>
+            </div>
+          </fieldset>
         </form>
       </div>
     </section>
