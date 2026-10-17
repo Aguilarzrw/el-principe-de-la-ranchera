@@ -5,24 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>El Príncipe De La Ranchera | Ricardo Velasco</title>
   <meta name="description" content="Ricardo Velasco, El Príncipe De La Ranchera. Cantante de música ranchera y popular desde Maracay, Aragua. Serenatas, Mariachi Show, Banda Show y eventos.">
-  <meta name="theme-color" content="#160E0D">
+  <meta name="theme-color" content="#18171A">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://aguilarzrw.github.io/el-principe-de-la-ranchera/">
   <meta property="og:locale" content="es_VE">
   <meta property="og:title" content="El Príncipe De La Ranchera">
-  <meta property="og:description" content="Ricardo Velasco canta rancheras y música popular desde Maracay, Aragua. Reserva tu serenata, Mariachi Show o Banda Show.">
-  <!-- FOTO: og-image.jpg de 1200×630 px. Retrato en traje de charro con fondo oscuro y el nombre artístico a un lado. Colocarla junto a index.html y poner aquí la URL absoluta del sitio publicado. -->
-  <meta property="og:image" content="og-image.jpg">
-  <meta property="og:image:alt" content="Ricardo Velasco, El Príncipe De La Ranchera, en traje de charro">
+  <meta property="og:description" content="Ricardo Velasco y su Mariachi 507. Rancheras y música popular desde Maracay, Aragua. Reserva tu serenata, Mariachi Show o Banda Show.">
+  <meta property="og:image" content="https://aguilarzrw.github.io/el-principe-de-la-ranchera/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="El Príncipe De La Ranchera, Ricardo Velasco y su Mariachi 507">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23160E0D' stroke='%23C9A24A' stroke-width='3'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='26' text-anchor='middle' fill='%23E6CB86'%3ERV%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/img/corona-96.png">
+  <link rel="apple-touch-icon" href="assets/img/corona-192.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/logo-560.webp" imagesrcset="assets/img/logo-560.webp 560w, assets/img/logo-1000.webp 1000w" imagesizes="(min-width: 960px) 520px, 76vw">
   <link rel="stylesheet" href="styles.css">
   <script>
     // Marca que hay JS antes de pintar, para que la tarima arranque a oscuras.
@@ -37,8 +40,8 @@
   <header class="site-header" id="top">
     <div class="wrap header-inner">
       <a class="brand" href="#top" aria-label="El Príncipe De La Ranchera, ir al inicio">
-        <span class="brand-mark" aria-hidden="true">RV</span>
-        <span class="brand-name">El Príncipe <em>De La Ranchera</em></span>
+        <img class="brand-mark" src="assets/img/corona-96.png" alt="" width="40" height="40">
+        <span class="brand-name">El Príncipe</span>
       </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="menu">
         <span class="sr-only">Abrir menú</span>
@@ -55,35 +58,44 @@
   </header>
 
   <main id="contenido">
-    <!-- HERO -->
+    <!-- HERO: video del Mariachi 507 de fondo, reflectores sobre el logo -->
     <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-media">
+        <video class="hero-video" muted loop playsinline preload="metadata"
+               poster="assets/video/hero-mariachi-poster.webp" aria-hidden="true">
+          <source src="assets/video/hero-mariachi.mp4" type="video/mp4">
+        </video>
+        <button class="video-toggle" type="button" aria-pressed="false">
+          <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg>
+          <span class="sr-only">Pausar el video de fondo</span>
+        </button>
+      </div>
+
       <div class="stage-lights" aria-hidden="true">
         <span class="haze"></span>
         <span class="light-pool"></span>
         <span class="beam beam-l"></span>
         <span class="beam beam-r"></span>
       </div>
+
       <div class="wrap hero-inner">
-        <!-- Botonadura de charro: se enciende al cargar -->
-        <ol class="botonadura" aria-hidden="true">
-          <li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-        </ol>
-
-        <svg class="filigree" viewBox="0 0 240 40" aria-hidden="true">
-          <path d="M120 20c-14-16-32-16-40-6s2 20 12 14-2-16-10-10M120 20c14-16 32-16 40-6s-2 20-12 14 2-16 10-10M80 14C60 30 34 30 6 20M160 14c20 16 46 16 74 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          <circle cx="120" cy="20" r="3.4" fill="currentColor"/>
-        </svg>
-
-        <p class="hero-real">Ricardo Velasco</p>
-        <h1 id="hero-title" class="hero-title">
-          <span class="t-el">El</span>
-          <span class="t-principe">Príncipe</span>
-          <span class="t-de">De La Ranchera</span>
-        </h1>
-        <p class="hero-lead">Rancheras mexicanas y música popular, con mariachi o con banda. Desde Maracay, estado Aragua, para cantarle a su familia.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-gold" href="https://wa.me/584243165711?text=Hola%20Ricardo%2C%20quiero%20reservar%20una%20serenata." target="_blank" rel="noopener">Reserva tu serenata</a>
-          <a class="btn btn-ghost" href="#en-vivo">Velo en vivo</a>
+        <div class="hero-copy">
+          <ol class="botonadura" aria-hidden="true">
+            <li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+          </ol>
+          <h1 id="hero-title" class="hero-title">
+            <img class="hero-logo" src="assets/img/logo-560.webp"
+                 srcset="assets/img/logo-560.webp 560w, assets/img/logo-1000.webp 1000w"
+                 sizes="(min-width: 960px) 520px, 76vw" width="1000" height="765"
+                 alt="El Príncipe De La Ranchera, Ricardo Velasco">
+          </h1>
+          <p class="hero-tagline">¡Pero sigo siendo el Rey!</p>
+          <p class="hero-lead">Rancheras mexicanas y música popular, con su Mariachi 507 o con banda. Desde Maracay, estado Aragua, para cantarle a su familia.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-gold" href="https://wa.me/584243165711?text=Hola%20Ricardo%2C%20quiero%20reservar%20una%20serenata." target="_blank" rel="noopener">Reserva tu serenata</a>
+            <a class="btn btn-ghost" href="#en-vivo">Velo en vivo</a>
+          </div>
         </div>
       </div>
     </section>
@@ -94,24 +106,36 @@
         <h2 id="formatos-title" class="section-title">Cuatro maneras de llevarle la música a tu gente</h2>
         <ul class="formato-list">
           <li class="formato">
-            <h3>Serenatas</h3>
-            <p>Para el cumpleaños, el Día de las Madres o esa fecha que merece una canción en la puerta de la casa. Llega el charro, se brinda y se canta con el corazón.</p>
-            <a class="formato-link" href="#reserva" data-tipo="Serenata">Reservar una serenata</a>
+            <img class="formato-img" src="assets/img/serenata-calida-600.webp" srcset="assets/img/serenata-calida-600.webp 600w, assets/img/serenata-calida-1000.webp 1000w" sizes="(min-width: 860px) 540px, 100vw" width="600" height="750" loading="lazy" alt="Ricardo de espaldas, con sombrero, cantando bajo luces cálidas">
+            <div class="formato-body">
+              <h3>Serenatas</h3>
+              <p>Para el cumpleaños, el Día de las Madres o esa fecha que merece una canción en la puerta de la casa. Llega el charro, se brinda y se canta con el corazón.</p>
+              <a class="formato-link" href="#reserva" data-tipo="Serenata">Reservar una serenata</a>
+            </div>
           </li>
           <li class="formato">
-            <h3>Mariachi Show</h3>
-            <p>El espectáculo completo junto a su Mariachi 507: trompetas, violines y las rancheras de siempre para una noche que nadie olvida.</p>
-            <a class="formato-link" href="#reserva" data-tipo="Mariachi Show">Reservar el Mariachi Show</a>
+            <img class="formato-img" src="assets/video/hero-mariachi-poster.webp" width="720" height="1280" loading="lazy" alt="Ricardo con traje de charro azul y dorado, cantando junto a su Mariachi 507">
+            <div class="formato-body">
+              <h3>Mariachi Show</h3>
+              <p>El espectáculo completo junto a su Mariachi 507: trompetas, violines y las rancheras de siempre para una noche que nadie olvida.</p>
+              <a class="formato-link" href="#reserva" data-tipo="Mariachi Show">Reservar el Mariachi Show</a>
+            </div>
           </li>
           <li class="formato formato-new">
-            <h3>Banda Show <span class="badge">Recién estrenado</span></h3>
-            <p>Su formato más nuevo, con banda en tarima. Otro sonido, la misma entrega, para fiestas que piden bailar.</p>
-            <a class="formato-link" href="#reserva" data-tipo="Banda Show">Reservar la Banda Show</a>
+            <img class="formato-img" src="assets/img/escenario-azul-600.webp" srcset="assets/img/escenario-azul-600.webp 600w, assets/img/escenario-azul-900.webp 900w" sizes="(min-width: 860px) 540px, 100vw" width="600" height="750" loading="lazy" alt="Ricardo en tarima con camisa azul y su banda detrás">
+            <div class="formato-body">
+              <h3>Banda Show <span class="badge">Recién estrenado</span></h3>
+              <p>Su formato más nuevo, con banda en tarima. Otro sonido, la misma entrega, para fiestas que piden bailar.</p>
+              <a class="formato-link" href="#reserva" data-tipo="Banda Show">Reservar la Banda Show</a>
+            </div>
           </li>
           <li class="formato">
-            <h3>Eventos y tarimas</h3>
-            <p>Restaurantes, bares, teatros, eventos comunitarios y de labor social. Donde haya un escenario y gente con ganas de cantar.</p>
-            <a class="formato-link" href="#reserva" data-tipo="Evento o tarima">Reservar para tu evento</a>
+            <img class="formato-img" src="assets/img/evento-comunitario-600.webp" srcset="assets/img/evento-comunitario-600.webp 600w, assets/img/evento-comunitario-1000.webp 1000w" sizes="(min-width: 860px) 540px, 100vw" width="600" height="750" loading="lazy" alt="Ricardo cantando en una tarima al aire libre frente a un público numeroso">
+            <div class="formato-body">
+              <h3>Eventos y tarimas</h3>
+              <p>Restaurantes, bares, teatros, eventos comunitarios y de labor social. Donde haya un escenario y gente con ganas de cantar.</p>
+              <a class="formato-link" href="#reserva" data-tipo="Evento o tarima">Reservar para tu evento</a>
+            </div>
           </li>
         </ul>
       </div>
@@ -120,12 +144,8 @@
     <!-- SOBRE ÉL -->
     <section class="sobre" id="sobre" aria-labelledby="sobre-title">
       <div class="wrap sobre-grid">
-        <figure class="frame frame-portrait">
-          <!-- FOTO: Retrato vertical (4:5) de Ricardo en traje de charro azul con bordado dorado y sombrero, luz cálida lateral y fondo oscuro. Reemplazar el contenido de .frame-inner por:
-               <img src="img/retrato-charro.jpg" alt="Ricardo Velasco en traje de charro azul con bordado dorado" width="800" height="1000" loading="lazy"> -->
-          <div class="frame-inner" role="img" aria-label="Espacio para el retrato de Ricardo Velasco en traje de charro">
-            <span class="monogram">RV</span>
-          </div>
+        <figure class="sobre-photo">
+          <img src="assets/img/retrato-charro-600.webp" srcset="assets/img/retrato-charro-600.webp 600w, assets/img/retrato-charro-1000.webp 1000w" sizes="(min-width: 860px) 420px, 90vw" width="600" height="750" loading="lazy" alt="Ricardo Velasco en traje de charro negro con botonadura dorada y sombrero">
         </figure>
         <div class="sobre-text">
           <h2 id="sobre-title" class="section-title">Un charro bohemio de Maracay</h2>
@@ -135,12 +155,36 @@
       </div>
     </section>
 
-    <!-- EN VIVO -->
+    <!-- EN VIVO: videos propios + reels de Instagram -->
     <section class="envivo" id="en-vivo" aria-labelledby="envivo-title">
       <div class="wrap">
         <div class="section-head">
           <h2 id="envivo-title" class="section-title">En vivo</h2>
-          <p class="section-sub">Momentos de tarima y serenata en su Instagram. Toca uno para verlo.</p>
+          <p class="section-sub">Toca un video para verlo con sonido.</p>
+        </div>
+        <ul class="clips">
+          <li>
+            <figure class="clip">
+              <video src="assets/video/show-norteno.mp4" poster="assets/video/show-norteno-poster.webp" preload="none" playsinline controls width="720" height="1280"></video>
+              <figcaption>Show norteño en el Noa Noa</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure class="clip">
+              <video src="assets/video/evento-comunitario.mp4" poster="assets/video/evento-comunitario-poster.webp" preload="none" playsinline controls width="720" height="1280"></video>
+              <figcaption>Cantando con la comunidad</figcaption>
+            </figure>
+          </li>
+          <li>
+            <figure class="clip">
+              <video src="assets/video/restaurante-en-vivo.mp4" poster="assets/video/restaurante-en-vivo-poster.webp" preload="none" playsinline controls width="720" height="1280"></video>
+              <figcaption>Una tarde de música en vivo</figcaption>
+            </figure>
+          </li>
+        </ul>
+
+        <div class="reels-head">
+          <h3 class="reels-title">Más en su Instagram</h3>
           <div class="reels-nav">
             <button class="reels-btn" type="button" data-dir="-1" aria-label="Reel anterior" aria-controls="reels"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             <p class="reels-count" aria-live="polite"><span id="reel-now">1</span> de <span id="reel-total">8</span></p>
@@ -148,15 +192,25 @@
           </div>
         </div>
         <ul class="reels" id="reels">
-          <!-- FOTO (cada reel): miniatura vertical 9:16 tomada del propio video (exportada por el cliente, no del CDN de Instagram). Añadir dentro de .reel-art: <img src="img/reel-XX.jpg" alt="" loading="lazy" width="540" height="960"> -->
-          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DeSty9dR6is/" target="_blank" rel="noopener"><span class="reel-art tone-vino" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">Su familia canta con él</span></a></li>
-          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DeN7bMXRLkm/" target="_blank" rel="noopener"><span class="reel-art tone-azul" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">Con su Mariachi 507</span></a></li>
-          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DdZfbXgBiT1/" target="_blank" rel="noopener"><span class="reel-art tone-oro" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">Serenata de cumpleaños</span></a></li>
-          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/Dd2QYn9RTQc/" target="_blank" rel="noopener"><span class="reel-art tone-vino" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">Folklore en el Teatro Ateneo de Turmero</span></a></li>
-          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DUMPn7eEpHI/" target="_blank" rel="noopener"><span class="reel-art tone-azul" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">Debut de la Banda Show</span></a></li>
-          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DdQNJisRlyj/" target="_blank" rel="noopener"><span class="reel-art tone-oro" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">Noche en Chichiriviche</span></a></li>
-          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DcP-PsKB745/" target="_blank" rel="noopener"><span class="reel-art tone-vino" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">En Choroní con maestros de lo criollo</span></a></li>
-          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DdmQfetx5vu/" target="_blank" rel="noopener"><span class="reel-art tone-azul" aria-hidden="true"><span class="monogram">RV</span></span><span class="reel-title">A capela, bajo la luna</span></a></li>
+          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DeSty9dR6is/" target="_blank" rel="noopener"><span class="reel-title">Su familia canta con él</span><span class="reel-cta">Ver en Instagram</span></a></li>
+          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DeN7bMXRLkm/" target="_blank" rel="noopener"><span class="reel-title">Con su Mariachi 507</span><span class="reel-cta">Ver en Instagram</span></a></li>
+          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DdZfbXgBiT1/" target="_blank" rel="noopener"><span class="reel-title">Serenata de cumpleaños</span><span class="reel-cta">Ver en Instagram</span></a></li>
+          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/Dd2QYn9RTQc/" target="_blank" rel="noopener"><span class="reel-title">Folklore en el Teatro Ateneo de Turmero</span><span class="reel-cta">Ver en Instagram</span></a></li>
+          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DUMPn7eEpHI/" target="_blank" rel="noopener"><span class="reel-title">Debut de la Banda Show</span><span class="reel-cta">Ver en Instagram</span></a></li>
+          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DdQNJisRlyj/" target="_blank" rel="noopener"><span class="reel-title">Noche en Chichiriviche</span><span class="reel-cta">Ver en Instagram</span></a></li>
+          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DcP-PsKB745/" target="_blank" rel="noopener"><span class="reel-title">En Choroní con maestros de lo criollo</span><span class="reel-cta">Ver en Instagram</span></a></li>
+          <li><a class="reel" href="https://www.instagram.com/elprincipedelaranchera_/reel/DdmQfetx5vu/" target="_blank" rel="noopener"><span class="reel-title">A capela, bajo la luna</span><span class="reel-cta">Ver en Instagram</span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="galeria" aria-label="Galería de fotos en tarima">
+      <div class="wrap">
+        <ul class="galeria-grid">
+          <li class="g-tall"><img src="assets/img/escenario-perfil-600.webp" srcset="assets/img/escenario-perfil-600.webp 600w, assets/img/escenario-perfil-1000.webp 1000w" sizes="(min-width: 860px) 40vw, 100vw" width="600" height="750" loading="lazy" alt="Ricardo de perfil con sombrero negro y camisa satinada, bajo luces rojas"></li>
+          <li><img src="assets/img/escenario-rojo-600.webp" srcset="assets/img/escenario-rojo-600.webp 600w, assets/img/escenario-rojo-1000.webp 1000w" sizes="(min-width: 860px) 30vw, 50vw" width="600" height="750" loading="lazy" alt="Ricardo cantando con el micrófono en tarima"></li>
+          <li><img src="assets/img/escenario-tricolor-600.webp" srcset="assets/img/escenario-tricolor-600.webp 600w, assets/img/escenario-tricolor-1000.webp 1000w" sizes="(min-width: 860px) 30vw, 50vw" width="600" height="750" loading="lazy" alt="Ricardo en tarima frente a una pantalla con los colores de México"></li>
         </ul>
       </div>
     </section>
@@ -166,12 +220,8 @@
       <div class="wrap escenarios-grid">
         <div>
           <h2 id="escenarios-title" class="section-title">Escenarios que lo han recibido</h2>
-          <figure class="frame frame-stage">
-            <!-- FOTO: Foto horizontal (3:2) en tarima con el Mariachi 507, luces cálidas y público al frente. Reemplazar .frame-inner por:
-                 <img src="img/tarima-mariachi.jpg" alt="El Príncipe De La Ranchera en tarima junto al Mariachi 507" width="1200" height="800" loading="lazy"> -->
-            <div class="frame-inner" role="img" aria-label="Espacio para una foto en tarima con el Mariachi 507">
-              <span class="monogram">RV</span>
-            </div>
+          <figure class="stage-photo">
+            <img src="assets/img/tarima-mariachi-900.webp" srcset="assets/img/tarima-mariachi-900.webp 900w, assets/img/tarima-mariachi-1600.webp 1600w" sizes="(min-width: 860px) 480px, 100vw" width="900" height="600" loading="lazy" alt="El Príncipe De La Ranchera en tarima junto a los músicos del mariachi">
           </figure>
         </div>
         <ul class="cartel">
@@ -240,7 +290,7 @@
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <p class="footer-brand">El Príncipe De La Ranchera</p>
+      <img class="footer-logo" src="assets/img/logo-560.webp" width="560" height="428" loading="lazy" alt="El Príncipe De La Ranchera">
       <ul class="social">
         <li>
           <a href="https://www.instagram.com/elprincipedelaranchera_/" target="_blank" rel="noopener">

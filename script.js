@@ -92,9 +92,9 @@
   }
 
   // ---------- Reflectores de tarima ----------
-  // Apunta cada haz desde su esquina hasta el centro de "Príncipe".
+  // Apunta cada haz desde su esquina hasta el centro del logo.
   var lights = document.querySelector(".stage-lights");
-  var target = document.querySelector(".t-principe");
+  var target = document.querySelector(".hero-logo");
   var beamL = document.querySelector(".beam-l");
   var beamR = document.querySelector(".beam-r");
 
@@ -102,7 +102,7 @@
     var h = hero.getBoundingClientRect();
     var t = target.getBoundingClientRect();
     var tx = t.left + t.width / 2 - h.left;
-    var ty = t.top + t.height * 0.55 - h.top;
+    var ty = t.top + t.height * 0.5 - h.top;
     [[beamL, "--a-l", -1], [beamR, "--a-r", 1]].forEach(function (b) {
       var ox = b[0].offsetLeft + b[0].offsetWidth / 2;   // foco del haz (centro superior)
       var oy = b[0].offsetTop;
@@ -119,7 +119,11 @@
     var fontsReady = document.fonts && document.fonts.ready
       ? Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 1200); })])
       : Promise.resolve();
-    fontsReady.then(function () {
+    var logoReady = target.complete ? Promise.resolve() : new Promise(function (r) {
+      target.addEventListener("load", r, { once: true });
+      target.addEventListener("error", r, { once: true });
+    });
+    Promise.all([fontsReady, logoReady]).then(function () {
       aimLights();
       requestAnimationFrame(function () { hero.classList.add("lights-on"); });
     });
@@ -148,6 +152,51 @@
       });
     }
   }
+
+  // ---------- Video de fondo del hero ----------
+  // Solo corre si la persona no pidió menos movimiento ni ahorro de datos.
+  var heroVideo = document.querySelector(".hero-video");
+  var videoToggle = document.querySelector(".video-toggle");
+  if (heroVideo && videoToggle) {
+    var toggleLabel = videoToggle.querySelector(".sr-only");
+    var saveData = navigator.connection && navigator.connection.saveData;
+    var setPaused = function (paused) {
+      videoToggle.setAttribute("aria-pressed", String(paused));
+      toggleLabel.textContent = paused ? "Reproducir el video de fondo" : "Pausar el video de fondo";
+    };
+    var playHero = function () {
+      var p = heroVideo.play();
+      if (p && p.catch) p.catch(function () { setPaused(true); });
+      setPaused(false);
+    };
+    if (reduceMotion.matches || saveData) {
+      setPaused(true);
+    } else {
+      heroVideo.preload = "auto";
+      playHero();
+    }
+    videoToggle.addEventListener("click", function () {
+      if (heroVideo.paused) playHero();
+      else { heroVideo.pause(); setPaused(true); }
+    });
+    // Pausar cuando el hero sale de pantalla, para no gastar batería
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        if (videoToggle.getAttribute("aria-pressed") === "true") return;
+        if (entries[0].isIntersecting) heroVideo.play().catch(function () {});
+        else heroVideo.pause();
+      }, { threshold: 0.1 }).observe(hero);
+    }
+  }
+
+  // ---------- Videos "En vivo": uno a la vez ----------
+  var clips = document.querySelectorAll(".clip video");
+  clips.forEach(function (clip) {
+    clip.addEventListener("play", function () {
+      clips.forEach(function (other) { if (other !== clip) other.pause(); });
+      if (heroVideo && !heroVideo.paused) heroVideo.pause();
+    });
+  });
 
   // ---------- Cartel de escenarios que se enciende ----------
   var cartel = document.querySelector(".cartel");
