@@ -288,6 +288,17 @@
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
+  // "19:30" -> "7:30 p. m. (noche)"
+  function timeWords(value) {
+    if (!value) return "";
+    var p = value.split(":"), h = Number(p[0]), m = p[1];
+    var franja = h < 12 ? (h < 5 ? "madrugada" : "mañana") : (h < 19 ? "tarde" : "noche");
+    if (h === 0 && m === "00") return "12:00 a. m. (medianoche)";
+    if (h === 12 && m === "00") return "12:00 m. (mediodía)";
+    var h12 = h % 12 === 0 ? 12 : h % 12;
+    return h12 + ":" + m + (h < 12 ? " a. m." : " p. m.") + " (" + franja + ")";
+  }
+
   function buildMessage(forPreview) {
     var f = form.elements;
     var tipo = radioValue("tipo");
@@ -295,10 +306,12 @@
     var nombre = f.nombre.value.trim();
     var lines = ["Hola, Príncipe. Quiero reservar.", ""];
     lines.push("Servicio: " + (tipo ? tipo + (motivo ? " (" + motivo + ")" : "") : "(por elegir)"));
-    if (f.fecha.value) lines.push("Fecha: " + dateWords(f.fecha.value).replace(/^(Hoy|Mañana), /, ""));
-    if (radioValue("hora")) lines.push("Hora: " + radioValue("hora"));
+    if (f.fecha.value) lines.push("Fecha tentativa: " + dateWords(f.fecha.value).replace(/^(Hoy|Mañana), /, ""));
+    if (f.hora.value) lines.push("Hora tentativa: " + timeWords(f.hora.value));
     if (f.ciudad.value.trim()) lines.push("Ciudad: " + f.ciudad.value.trim());
-    lines.push("Nombre: " + (nombre || (forPreview ? "(tu nombre)" : "")));
+    lines.push("Nombre: " + (nombre || (forPreview ? "(tu nombre y apellido)" : "")));
+    var tel = f.telefono.value.trim();
+    lines.push("Teléfono: " + (tel || (forPreview ? "(tu teléfono)" : "")));
     if (f.mensaje.value.trim()) lines.push("", f.mensaje.value.trim());
     return lines.join("\n");
   }
@@ -306,6 +319,7 @@
   function refresh() {
     motivoBox.hidden = radioValue("tipo") !== "Serenata";
     prettyDate.textContent = dateWords(form.elements.fecha.value);
+    document.getElementById("hora-texto").textContent = timeWords(form.elements.hora.value);
     preview.textContent = buildMessage(true);
     var iso = form.elements.fecha.value;
     form.querySelectorAll("[data-quick]").forEach(function (b) {
@@ -345,11 +359,17 @@
       if (first) first.focus();
       return false;
     }
-    if (n === 3 && !form.elements.nombre.value.trim()) {
-      setError("e-nombre", "Escribe tu nombre para que sepa quién lo contacta.");
-      form.elements.nombre.setAttribute("aria-invalid", "true");
-      form.elements.nombre.focus();
-      return false;
+    if (n === 3) {
+      var nombre = form.elements.nombre, tel = form.elements.telefono;
+      var okNombre = nombre.value.trim().split(/\s+/).length >= 2;
+      var digits = tel.value.replace(/\D/g, "");
+      var okTel = digits.length >= 10 && digits.length <= 13;
+      setError("e-nombre", okNombre ? "" : "Escribe tu nombre y apellido.");
+      setError("e-telefono", okTel ? "" : "Escribe un teléfono con código de área, por ejemplo 0414-123 4567.");
+      nombre.setAttribute("aria-invalid", String(!okNombre));
+      tel.setAttribute("aria-invalid", String(!okTel));
+      if (!okNombre) { nombre.focus(); return false; }
+      if (!okTel) { tel.focus(); return false; }
     }
     return true;
   }
@@ -378,8 +398,8 @@
 
   form.addEventListener("input", function (e) {
     if (e.target.name === "tipo") setError("e-tipo", "");
-    if (e.target.name === "nombre" && e.target.value.trim()) {
-      setError("e-nombre", "");
+    if ((e.target.name === "nombre" || e.target.name === "telefono") && e.target.getAttribute("aria-invalid") === "true") {
+      setError("e-" + e.target.name, "");
       e.target.setAttribute("aria-invalid", "false");
     }
     refresh();
