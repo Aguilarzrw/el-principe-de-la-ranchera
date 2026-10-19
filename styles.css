@@ -497,6 +497,7 @@ body.menu-open { overflow: hidden; }
   .js .cartel.is-lit li:nth-child(4)::before, .js .cartel.is-lit li:nth-child(4) .venue { transition-delay: .45s; }
   .js .cartel.is-lit li:nth-child(5)::before, .js .cartel.is-lit li:nth-child(5) .venue { transition-delay: .6s; }
   .js .cartel.is-lit li:nth-child(6)::before, .js .cartel.is-lit li:nth-child(6) .venue { transition-delay: .75s; }
+  .js .cartel.is-lit li:nth-child(7)::before, .js .cartel.is-lit li:nth-child(7) .venue { transition-delay: .9s; }
 }
 
 /* Reserva */
