@@ -396,6 +396,17 @@
     b.setAttribute("data-iso", localISO(d));
   });
 
+  // Selector de hora: hora (1-12) + minutos + a. m./p. m. -> campo oculto "hora" en formato 24 h
+  function syncTime() {
+    var h = form.querySelector("#tp-h").value;
+    var m = (form.querySelector('input[name="tp-m"]:checked') || {}).value || "00";
+    var ap = (form.querySelector('input[name="tp-ap"]:checked') || {}).value || "pm";
+    if (!h) { form.elements.hora.value = ""; return; }
+    var h24 = Number(h) % 12 + (ap === "pm" ? 12 : 0);
+    form.elements.hora.value = (h24 < 10 ? "0" : "") + h24 + ":" + m;
+  }
+  form.querySelector(".timepick").addEventListener("change", function () { syncTime(); refresh(); });
+
   form.addEventListener("input", function (e) {
     if (e.target.name === "tipo") setError("e-tipo", "");
     if ((e.target.name === "nombre" || e.target.name === "telefono") && e.target.getAttribute("aria-invalid") === "true") {

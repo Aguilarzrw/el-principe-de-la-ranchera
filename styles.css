@@ -805,3 +805,35 @@ input[type="time"] { min-height: 52px; font-weight: 600; cursor: pointer; }
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(84%) sepia(30%) saturate(500%) hue-rotate(5deg); cursor: pointer; opacity: .9;
 }
+
+/* Selector de hora: menú de hora + segmentos de minutos y a. m./p. m. */
+.timepick { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+.tp-hour { position: relative; flex: 1 1 120px; }
+.tp-hour svg {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; color: var(--oro-claro); pointer-events: none;
+}
+.tp-hour select { min-height: 52px; padding-left: 44px; font-weight: 700; font-size: 1.05rem; cursor: pointer; }
+.tp-seg {
+  display: inline-flex; flex: 1 1 auto; padding: 4px; gap: 4px; border-radius: 12px;
+  background: var(--piedra-3); border: 1px solid rgba(233,208,140,.3);
+}
+.tp-seg label { position: relative; flex: 1; cursor: pointer; }
+.tp-seg input { position: absolute; opacity: 0; pointer-events: none; }
+.tp-seg span {
+  display: grid; place-items: center; min-height: 42px; min-width: 44px; padding: 0 8px; border-radius: 8px;
+  font-weight: 700; font-size: .92rem; color: var(--marfil-suave); transition: background-color .2s, color .2s;
+}
+.tp-seg label:hover span { color: var(--marfil); }
+.tp-seg input:checked + span { background: var(--oro-grad); color: #1A1307; }
+.tp-seg input:focus-visible + span { outline: 2px solid var(--oro-claro); outline-offset: 1px; }
+.tp-ampm { flex: 0 0 auto; }
+.when-grid { align-items: start; }
+@media (min-width: 700px) { .when-grid { grid-template-columns: 1fr 1fr; } }
+/* Selector de hora: hora + a. m./p. m. en la primera fila, minutos debajo */
+.timepick { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "hora ampm" "min min"; gap: 8px; }
+.tp-hour { grid-area: hora; }
+.tp-ampm { grid-area: ampm; }
+.timepick .tp-seg:not(.tp-ampm) { grid-area: min; }
+.tp-seg span { white-space: nowrap; }
+.tp-ampm span { min-width: 52px; }

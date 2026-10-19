@@ -453,10 +453,37 @@
             </div>
 
             <div class="field">
-              <label class="mini-label" for="f-hora">Hora</label>
-              <div class="input-icon">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <input id="f-hora" name="hora" type="time" step="900" aria-describedby="hora-texto">
+              <p class="mini-label" id="hora-label">Hora</p>
+              <div class="timepick" role="group" aria-labelledby="hora-label">
+                <input type="hidden" name="hora" id="f-hora">
+                <div class="tp-hour">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <select id="tp-h" aria-label="Hora">
+                    <option value="">Hora</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                </div>
+                <div class="tp-seg" role="radiogroup" aria-label="Minutos">
+                  <label><input type="radio" name="tp-m" value="00" checked><span>:00</span></label>
+                  <label><input type="radio" name="tp-m" value="15"><span>:15</span></label>
+                  <label><input type="radio" name="tp-m" value="30"><span>:30</span></label>
+                  <label><input type="radio" name="tp-m" value="45"><span>:45</span></label>
+                </div>
+                <div class="tp-seg tp-ampm" role="radiogroup" aria-label="Mañana o tarde">
+                  <label><input type="radio" name="tp-ap" value="am"><span>a. m.</span></label>
+                  <label><input type="radio" name="tp-ap" value="pm" checked><span>p. m.</span></label>
+                </div>
               </div>
               <p class="date-pretty" id="hora-texto" aria-live="polite"></p>
             </div>
