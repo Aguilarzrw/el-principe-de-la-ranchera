@@ -439,7 +439,7 @@
     goTo(1, false);
     refresh();
   }
-  document.querySelectorAll(".formato-link").forEach(function (link) {
+  document.querySelectorAll("a[data-tipo]").forEach(function (link) {
     link.addEventListener("click", function () { pickService(link.getAttribute("data-tipo")); });
   });
   var param = new URLSearchParams(location.search).get("servicio");
