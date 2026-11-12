@@ -837,3 +837,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .timepick .tp-seg:not(.tp-ampm) { grid-area: min; }
 .tp-seg span { white-space: nowrap; }
 .tp-ampm span { min-width: 52px; }
+
+
+/* Crédito discreto de desarrollo: respeta la identidad dorada del sitio */
+.aguidev-credit { color: var(--marfil-suave); font-size: .78rem; opacity: .72; }
+.aguidev-credit a { color: var(--oro-claro); font-weight: 700; text-decoration: none; letter-spacing: .06em; }
+.aguidev-credit a:hover, .aguidev-credit a:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
+.aguidev-credit a span { opacity: .8; }
